@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">MusicStreaming</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="register">Register</string>
+    <string name="sign_in">Sign in</string>
+    <string name="skip_for_now">Skip for now</string>
+    <string name="welcomed_title">Welcome to your own music paradise</string>
+    <string name="welcomed_subtitle">Sign up or register to personalize your own music experience</string>
+</resources>

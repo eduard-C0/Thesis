@@ -1,0 +1,77 @@
+ext{
+    android_version = [
+            minSdk       : 26,
+            compileSdk   : 31,
+            targetSdk    : 31,
+            buildTools   : "31.0.0",
+    ]
+
+    dependency_versions = [
+            androidx_appcompat         : "1.4.1",
+            androidx_constraintlayout  : "2.1.3",
+            material                   : "1.5.0",
+            androidx_lifecycle         : "2.2.0",
+            androidx_annotation        : "1.3.0",
+
+            // Unit test
+            junit                      : "4.13.2",
+            androidx_junit             : "1.1.3",
+
+            //ktx
+            core_ktx                   : "1.7.0",
+
+            //hilt
+            hilt                     : "2.38.1",
+
+            //retrofit
+            retrofit                   : "2.9.0",
+            retrofit_logging           : "4.7.2",
+
+            //leakcanary
+            leakcanary                 : "2.7",
+
+            circular_image             : "3.1.0",
+
+            glide                      : "4.12.0",
+
+            fragment_ktx               : "1.2.5",
+
+
+    ]
+
+    libraries = [
+            // Android library
+            appcompat                         : "androidx.appcompat:appcompat:$dependency_versions.androidx_appcompat",
+            constraintlayout                  : "androidx.constraintlayout:constraintlayout:$dependency_versions.androidx_constraintlayout",
+            material                          : "com.google.android.material:material:$dependency_versions.material",
+            livedata_ktx                      : "androidx.lifecycle:lifecycle-livedata-ktx:$dependency_versions.androidx_lifecycle",
+            androidx_annotation               : "androidx.annotation:annotation:$dependency_versions.androidx_annotation",
+
+            // Unit test
+            junit                             : "junit:junit:$dependency_versions.junit",
+            androidx_junit                    : "androidx.test.ext:junit:$dependency_versions.androidx_junit",
+
+            //ktx
+            core_ktx                          : "androidx.core:core-ktx:$dependency_versions.core_ktx",
+
+            //dagger
+            hilt                            : "com.google.dagger:hilt-android:$dependency_versions.hilt",
+            hilt_compiler                   : "com.google.dagger:hilt-compiler:$dependency_versions.hilt",
+
+            //retrofit
+            retrofit                          : "com.squareup.retrofit2:retrofit:$dependency_versions.retrofit",
+            converter_gson                    : "com.squareup.retrofit2:converter-gson:$dependency_versions.retrofit",
+            retrofit_logging                  : "com.squareup.okhttp3:logging-interceptor:$dependency_versions.retrofit_logging",
+
+            //leakcanary
+            leakcanary                        : "com.squareup.leakcanary:leakcanary-android:$dependency_versions.leakcanary",
+
+            circular_image                    : "de.hdodenhof:circleimageview:$dependency_versions.circular_image",
+
+            glide                             : "com.github.bumptech.glide:glide:$dependency_versions.glide",
+
+            viewmodel_ktx                     : "androidx.lifecycle:lifecycle-viewmodel-ktx:$dependency_versions.androidx_lifecycle",
+            fragment_ktx                      : "androidx.fragment:fragment-ktx:$dependency_versions.fragment_ktx",
+    ]
+
+}

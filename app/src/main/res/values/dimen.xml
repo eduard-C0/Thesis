@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="dimen4">4dp</dimen>
+    <dimen name="dimen8">8dp</dimen>
+    <dimen name="dimen12">12dp</dimen>
+    <dimen name="dimen16">16dp</dimen>
+    <dimen name="dimen20">20dp</dimen>
+    <dimen name="dimen24">24dp</dimen>
+    <dimen name="dimen28">28dp</dimen>
+    <dimen name="dimen32">32dp</dimen>
+    <dimen name="dimen36">36dp</dimen>
+    <dimen name="dimen40">40dp</dimen>
+    <dimen name="dimen44">44dp</dimen>
+    <dimen name="dimen48">48dp</dimen>
+    <dimen name="dimen52">52dp</dimen>
+    <dimen name="dimen56">56dp</dimen>
+    <dimen name="dimen60">60dp</dimen>
+    <dimen name="dimen64">64dp</dimen>
+    <dimen name="dimen68">68dp</dimen>
+    <dimen name="dimen72">72dp</dimen>
+    <dimen name="dimen76">76dp</dimen>
+    <dimen name="dimen80">80dp</dimen>
+    <dimen name="dimen84">84dp</dimen>
+    <dimen name="dimen88">88dp</dimen>
+    <dimen name="dimen92">92dp</dimen>
+    <dimen name="dimen96">96dp</dimen>
+    <dimen name="dimen100">100dp</dimen>
+    <dimen name="dimen200">200dp</dimen>
+    <dimen name="dimen300">300dp</dimen>
+    <dimen name="dimen400">400dp</dimen>
+
+
+    <dimen name="text4">4sp</dimen>
+    <dimen name="text8">8sp</dimen>
+    <dimen name="text12">12sp</dimen>
+    <dimen name="text16">16sp</dimen>
+    <dimen name="text20">20sp</dimen>
+    <dimen name="text24">24sp</dimen>
+    <dimen name="text28">28sp</dimen>
+    <dimen name="text32">32sp</dimen>
+    <dimen name="text36">36sp</dimen>
+    <dimen name="text40">40sp</dimen>
+    <dimen name="text44">44sp</dimen>
+    <dimen name="text48">48sp</dimen>
+    <dimen name="text52">52sp</dimen>
+    <dimen name="text56">56sp</dimen>
+    <dimen name="text60">60sp</dimen>
+    <dimen name="text64">64sp</dimen>
+    <dimen name="text68">68sp</dimen>
+    <dimen name="text72">72sp</dimen>
+    <dimen name="text76">76sp</dimen>
+    <dimen name="text80">80sp</dimen>
+    <dimen name="text84">84sp</dimen>
+    <dimen name="text88">88sp</dimen>
+    <dimen name="text92">92sp</dimen>
+    <dimen name="text96">96sp</dimen>
+    <dimen name="text100">100sp</dimen>
+    <dimen name="text200">200sp</dimen>
+    <dimen name="text300">300sp</dimen>
+    <dimen name="text400">400sp</dimen>
+
+
+</resources>
