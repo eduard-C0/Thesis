@@ -11,33 +11,32 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import java.lang.reflect.Proxy
+import javax.inject.Qualifier
+import javax.inject.Scope
+
+@Qualifier
+internal annotation class NullableBackendService
+
+@Qualifier
+internal annotation class BackendService
 
 @Module
 @InstallIn(SingletonComponent::class)
 internal object BackendServiceModule {
 
     @Provides
-    @BackendServiceScope
-    fun provideNetworkClient(
-        @Url url: String,
-        enableLogging: Boolean
-    ): NetworkClient {
-        return NetworkClient(url, enableLogging)
-    }
+    fun provideNetworkClient(): NetworkClient =  NetworkClient("https://boiling-plains-24159.herokuapp.com/", true)
 
     @Provides
-    @BackendServiceScope
     fun provideSafeRetrofit(networkClient: NetworkClient): SafeRetrofit =
         SafeRetrofit(networkClient)
 
     @Provides
-    @BackendServiceScope
     @NullableBackendService
     fun provideNullableBackendServiceApi(safeRetrofit: SafeRetrofit): RetrofitBackendServiceApi? =
         safeRetrofit.getRetrofitService()
 
     @Provides
-    @BackendServiceScope
     @BackendService
     fun provideRetrofitBackendServiceApi(proxy: RetrofitProxy): RetrofitBackendServiceApi {
         return Proxy.newProxyInstance(
@@ -48,7 +47,6 @@ internal object BackendServiceModule {
     }
 
     @Provides
-    @BackendServiceScope
     fun provideRetrofitBackendServiceImplementation(@BackendService backendServiceApi: RetrofitBackendServiceApi): RetrofitBackendService =
         RetrofitBackendServiceImplementation(backendServiceApi)
 

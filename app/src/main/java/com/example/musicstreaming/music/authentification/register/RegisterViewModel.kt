@@ -13,11 +13,13 @@ import javax.inject.Inject
 class RegisterViewModel @Inject constructor(private val registerUseCase: RegisterUseCase) : ViewModel() {
 
     val registerStatus : MutableLiveData<Boolean> = MutableLiveData()
-
+    val loadingProgressBar : MutableLiveData<Boolean> = MutableLiveData(false)
     fun register(user: User) {
+        loadingProgressBar.postValue(true)
         CoroutineScope(Dispatchers.IO).launch {
             val status = registerUseCase.invoke(user)
             registerStatus.postValue(status)
+            loadingProgressBar.postValue(false)
         }
     }
 }

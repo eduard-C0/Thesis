@@ -1,14 +1,20 @@
 package com.example.musicstreaming.music.authentification.register
 
+import android.opengl.Visibility
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
+import com.example.musicstreaming.R
 import com.example.musicstreaming.commonVO.User
 import com.example.musicstreaming.databinding.RegisterFragmentBinding
+import com.example.musicstreaming.music.DialogShower
+import com.example.musicstreaming.music.authentification.login.LoginFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -44,16 +50,33 @@ class RegisterFragment : Fragment() {
             val user = User(firstName, lastName, email, password)
             viewModel.register(user)
         }
+        viewModel.loadingProgressBar.observe(viewLifecycleOwner){
+            if(it){
+                binding.registerLoading.visibility = View.VISIBLE
+                binding.registerText.visibility = View.GONE
+                binding.loginButton.isEnabled = false
+            }
+            else{
+                binding.registerLoading.visibility = View.GONE
+                binding.registerText.visibility = View.VISIBLE
+                binding.loginButton.isEnabled = true
+            }
+        }
         displayStatusMessage()
     }
 
     private fun displayStatusMessage() {
         viewModel.registerStatus.observe(viewLifecycleOwner) {
             if (it) {
-                Toast.makeText(context, "Registered", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Registered successfully", Toast.LENGTH_SHORT).show()
+                showDialogFragment()
             } else {
-                Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Already created an account with this email", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun showDialogFragment(){
+        DialogShower().show(parentFragmentManager,DialogShower.TAG)
     }
 }
