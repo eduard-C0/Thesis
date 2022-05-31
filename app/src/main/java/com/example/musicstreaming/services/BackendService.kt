@@ -12,4 +12,9 @@ class BackendService @Inject constructor(private val retrofitBackendService: Ret
     fun register(user: User): Boolean? = runBlocking {
         retrofitBackendService.register(user)
     }
+
+    @WorkerThread
+    fun login(user: User): Boolean? = runBlocking {
+        retrofitBackendService.login(user)
+    }
 }

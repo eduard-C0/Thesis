@@ -104,24 +104,43 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/register_button_register"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/login_button_fragment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/dimen44"
             android:layout_marginHorizontal="@dimen/dimen12"
             android:layout_marginBottom="@dimen/dimen60"
             android:background="@drawable/bg_yellow_gradient"
             android:gravity="center"
-            android:text="@string/sign_in"
-            android:textAllCaps="false"
-            android:textColor="@color/text_color"
-            android:textSize="@dimen/text20"
-            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:text="@string/sign_in" />
+            app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                android:id="@+id/login_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sign_in"
+                android:textAllCaps="false"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text20"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ProgressBar
+                android:id="@+id/login_loading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminateTint="@color/white"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

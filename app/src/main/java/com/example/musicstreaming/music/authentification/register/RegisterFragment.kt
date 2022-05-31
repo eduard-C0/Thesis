@@ -1,20 +1,17 @@
 package com.example.musicstreaming.music.authentification.register
 
-import android.opengl.Visibility
 import android.os.Bundle
+import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
-import com.example.musicstreaming.R
 import com.example.musicstreaming.commonVO.User
 import com.example.musicstreaming.databinding.RegisterFragmentBinding
 import com.example.musicstreaming.music.DialogShower
-import com.example.musicstreaming.music.authentification.login.LoginFragment
+import com.example.musicstreaming.utils.afterTextChanged
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -22,7 +19,11 @@ class RegisterFragment : Fragment() {
 
     private val viewModel by viewModels<RegisterViewModel>()
     private lateinit var binding: RegisterFragmentBinding
-
+    private var validFirst = false
+    private var validLast = false
+    private var validPassword = false
+    private var validConfirmation = false
+    private var validEmail = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -42,7 +43,11 @@ class RegisterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.loginButton.setOnClickListener {
+
+        validateRegisterInput()
+        binding.registerButtonFragment.isEnabled = validLast && validFirst && validEmail && validPassword && validConfirmation
+
+        binding.registerButtonFragment.setOnClickListener {
             val lastName = binding.registerLast.text.toString()
             val firstName = binding.registerFirst.text.toString()
             val email = binding.registerEmail.text.toString()
@@ -50,16 +55,16 @@ class RegisterFragment : Fragment() {
             val user = User(firstName, lastName, email, password)
             viewModel.register(user)
         }
-        viewModel.loadingProgressBar.observe(viewLifecycleOwner){
-            if(it){
+
+        viewModel.loadingProgressBar.observe(viewLifecycleOwner) {
+            if (it) {
                 binding.registerLoading.visibility = View.VISIBLE
                 binding.registerText.visibility = View.GONE
-                binding.loginButton.isEnabled = false
-            }
-            else{
+                binding.registerButtonFragment.isEnabled = false
+            } else {
                 binding.registerLoading.visibility = View.GONE
                 binding.registerText.visibility = View.VISIBLE
-                binding.loginButton.isEnabled = true
+                binding.registerButtonFragment.isEnabled = true
             }
         }
         displayStatusMessage()
@@ -76,7 +81,55 @@ class RegisterFragment : Fragment() {
         }
     }
 
-    private fun showDialogFragment(){
-        DialogShower().show(parentFragmentManager,DialogShower.TAG)
+    private fun showDialogFragment() {
+        DialogShower().show(parentFragmentManager, DialogShower.TAG)
     }
+
+    private fun validateRegisterInput() {
+        binding.registerLast.afterTextChanged {
+            if (binding.registerLast.text.length < 2) {
+                binding.registerLast.error = "Last name must have at least 2 characters!"
+                validLast = false
+            } else {
+                validLast = true
+            }
+        }
+        binding.registerFirst.afterTextChanged {
+            if (binding.registerFirst.text.length < 2) {
+                binding.registerFirst.error = "First name must have at least 2 characters!"
+                validFirst = false
+            } else {
+                validFirst = true
+            }
+        }
+
+        binding.registerPassword.afterTextChanged {
+            if (binding.registerPassword.text.length < 6) {
+                binding.registerPassword.error = "Password must have at least 6 characters!"
+                validPassword = false
+            } else {
+                validPassword = true
+            }
+        }
+
+        binding.registerConfirmPassword.afterTextChanged {
+            if (binding.registerConfirmPassword.text != binding.registerPassword.text) {
+                binding.registerConfirmPassword.error = "Password does not match!"
+                validConfirmation = false
+            } else {
+                binding.registerConfirmPassword.error = null
+                validConfirmation = true
+            }
+        }
+
+        binding.registerEmail.afterTextChanged {
+            if (!Patterns.EMAIL_ADDRESS.matcher(binding.registerEmail.text).matches()) {
+                binding.registerEmail.error = "Invalid email address!"
+                validConfirmation = false
+            } else {
+                validConfirmation = true
+            }
+        }
+    }
+
 }
