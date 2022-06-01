@@ -6,12 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
-import androidx.fragment.app.commitNow
 import com.example.musicstreaming.R
 import com.example.musicstreaming.databinding.WelcomeFragmentBinding
 import com.example.musicstreaming.music.authentification.login.LoginFragment
 import com.example.musicstreaming.music.authentification.register.RegisterFragment
-import com.example.musicstreaming.music.musicstreaming.HomeFragment
+import com.example.musicstreaming.music.musicstreaming.home.HomeFragment
 
 class WelcomeFragment : Fragment() {
 

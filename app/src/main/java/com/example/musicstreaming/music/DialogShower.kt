@@ -44,7 +44,7 @@ class DialogShower : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.dialogButton.setOnClickListener {
+        binding.dismissEmailConfirmation.setOnClickListener {
             dialog?.dismiss()
             redirectToLoginFragment()
         }

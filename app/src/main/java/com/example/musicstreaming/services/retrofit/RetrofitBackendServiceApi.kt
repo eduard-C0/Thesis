@@ -12,4 +12,5 @@ internal interface RetrofitBackendServiceApi {
     suspend fun register(@Body userDto: UserDto): ResponseMessage
 
     @POST("$USER_URL/login")
-    suspend fun login(@Body userDto: UserDto): ResponseMessage}
+    suspend fun login(@Body userDto: UserDto): ResponseMessage
+}

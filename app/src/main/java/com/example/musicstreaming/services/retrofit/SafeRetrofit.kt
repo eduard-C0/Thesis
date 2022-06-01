@@ -17,4 +17,13 @@ internal class SafeRetrofit(private val networkClient: NetworkClient) {
             null
         }
     }
+
+    fun getRetrofitNapsterService(): RetrofitNapsterServiceApi? {
+        return try {
+            networkClient.getService()
+        } catch (error: Exception) {
+            Log.e(TAG, "Retrofit service couldn't be initialized: $error")
+            null
+        }
+    }
 }
