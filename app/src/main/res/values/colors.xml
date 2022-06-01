@@ -19,4 +19,9 @@
     <color name="yellowTransparent">#80FFAF40</color>
     <color name="login_yellow">#FFA62B</color>
     <color name="text_color">#E0E0E0</color>
+    <color name="search_item">#E0E0E0</color>
+    <color name="search_item_title_color">#01001E</color>
+    <color name="dark_blue">#1A1A35</color>
+    <color name="greyTransparent">#4D676678</color>
+
 </resources>

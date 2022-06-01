@@ -1,13 +1,34 @@
 package com.example.musicstreaming.services.retrofit
 
 import com.example.musicstreaming.services.dtos.NapsterResponse
+import com.example.musicstreaming.services.dtos.TopArtist
+import com.example.musicstreaming.services.dtos.TopTrack
 import retrofit2.Call
-import retrofit2.http.GET
-import retrofit2.http.Query
+import retrofit2.http.*
 
 internal interface RetrofitNapsterServiceApi {
 
+    @Headers(
+        "contentType: application/json",
+        "apikey: M2ExNTkyZWUtOWVlOS00NDU0LWJhOTEtYWFmMjI0NGZhNTM5"
+    )
     @GET("v2.2/search")
-    suspend fun searchTracks(@Query("query") trackName: String, @Query("type") type: String = "track"): NapsterResponse?
+    suspend fun searchTracks(@Query("query") trackName: String, @Query("type") type: String = "track"): NapsterResponse
+
+
+    @Headers(
+        "contentType: application/json",
+        "apikey: M2ExNTkyZWUtOWVlOS00NDU0LWJhOTEtYWFmMjI0NGZhNTM5"
+    )
+    @GET("v2.2/artists/top")
+    suspend fun getTopArtists(@Query("range") range: String = "week"): TopArtist
+
+
+    @Headers(
+        "contentType: application/json",
+        "apikey: M2ExNTkyZWUtOWVlOS00NDU0LWJhOTEtYWFmMjI0NGZhNTM5"
+    )
+    @GET("v2.2/artists/{artistId}/tracks/top")
+    suspend fun getTopTracks(@Path("artistId") artistId: String, @Query("limit") limit: Int = 20): TopTrack
 
 }
