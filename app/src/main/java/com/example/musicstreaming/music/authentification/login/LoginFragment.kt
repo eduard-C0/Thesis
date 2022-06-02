@@ -11,9 +11,9 @@ import androidx.fragment.app.viewModels
 import com.example.musicstreaming.R
 import com.example.musicstreaming.commonVO.User
 import com.example.musicstreaming.databinding.LoginFragmentBinding
-import com.example.musicstreaming.music.authentification.WelcomeFragment
-import com.example.musicstreaming.music.authentification.register.RegisterFragment
+import com.example.musicstreaming.music.DialogShowerError
 import com.example.musicstreaming.music.musicstreaming.MainFragment
+import com.example.musicstreaming.utils.saveStringIntoSharedPreferences
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -65,11 +65,13 @@ class LoginFragment : Fragment() {
 
     private fun displayStatusMessage() {
         viewModel.loginStatus.observe(viewLifecycleOwner) {
-            if (it) {
-                Toast.makeText(context, "Successfully signed in", Toast.LENGTH_SHORT).show()
+            if (it.code == "200") {
+                context?.let { context -> saveStringIntoSharedPreferences(context,"Token",it.message) }
                 redirectToMainFragment()
             } else {
-                Toast.makeText(context, "Invalid account", Toast.LENGTH_SHORT).show()
+                val dialogShowerError = DialogShowerError("Error",it.message,resources.getDrawable(R.drawable.ic_error_rip))
+                dialogShowerError.show(parentFragmentManager,DialogShowerError.TAG)
+                Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
             }
         }
     }

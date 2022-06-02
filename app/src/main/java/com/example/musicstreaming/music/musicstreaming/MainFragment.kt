@@ -8,10 +8,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import com.example.musicstreaming.R
 import com.example.musicstreaming.databinding.MainFragmentBinding
+import com.example.musicstreaming.music.authentification.WelcomeFragment
 import com.example.musicstreaming.music.authentification.login.LoginFragment
 import com.example.musicstreaming.music.musicstreaming.home.HomeFragment
+import com.example.musicstreaming.music.musicstreaming.player.PlayerFragment
 import com.example.musicstreaming.music.musicstreaming.profile.ProfileFragment
 import com.example.musicstreaming.music.musicstreaming.search.SearchFragment
+import com.example.musicstreaming.utils.saveStringIntoSharedPreferences
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -38,6 +41,7 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         tabListener()
 
+        addMusicPlayer()
     }
 
     private fun redirectToHomeScree() {
@@ -92,6 +96,13 @@ class MainFragment : Fragment() {
         parentFragmentManager.commit {
             setReorderingAllowed(true)
             replace(R.id.main_music_container, HomeFragment())
+        }
+    }
+
+    private fun addMusicPlayer(){
+        parentFragmentManager.commit {
+            setReorderingAllowed(true)
+            replace(R.id.player_container, PlayerFragment())
         }
     }
 

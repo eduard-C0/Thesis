@@ -8,9 +8,11 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.example.musicstreaming.R
 import com.example.musicstreaming.commonVO.User
 import com.example.musicstreaming.databinding.RegisterFragmentBinding
-import com.example.musicstreaming.music.DialogShower
+import com.example.musicstreaming.music.DialogShowerError
+import com.example.musicstreaming.music.DialogShowerRegister
 import com.example.musicstreaming.utils.afterTextChanged
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -74,16 +76,14 @@ class RegisterFragment : Fragment() {
         viewModel.registerStatus.observe(viewLifecycleOwner) {
             if (it) {
                 Toast.makeText(context, "Registered successfully", Toast.LENGTH_SHORT).show()
-                showDialogFragment()
+                DialogShowerRegister().show(parentFragmentManager, DialogShowerRegister.TAG)
             } else {
+                DialogShowerError("Oops!", "Somebody already used this email.", resources.getDrawable(R.drawable.ic_register_error)).show(parentFragmentManager,DialogShowerError.TAG)
                 Toast.makeText(context, "Already created an account with this email", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    private fun showDialogFragment() {
-        DialogShower().show(parentFragmentManager, DialogShower.TAG)
-    }
 
     private fun validateRegisterInput() {
         binding.registerLast.afterTextChanged {

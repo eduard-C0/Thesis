@@ -15,7 +15,7 @@ import com.example.musicstreaming.music.authentification.WelcomeFragment
 import com.example.musicstreaming.music.authentification.login.LoginFragment
 import com.example.musicstreaming.music.authentification.register.RegisterFragment
 
-class DialogShower : DialogFragment() {
+class DialogShowerRegister : DialogFragment() {
 
     companion object {
         const val TAG = "DialogShower"
@@ -48,6 +48,7 @@ class DialogShower : DialogFragment() {
             dialog?.dismiss()
             redirectToLoginFragment()
         }
+        binding.dialogTitle
     }
 
     private fun redirectToLoginFragment() {
