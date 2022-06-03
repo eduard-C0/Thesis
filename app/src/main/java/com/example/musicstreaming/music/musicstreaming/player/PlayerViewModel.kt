@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.example.musicstreaming.music.musicstreaming.MusicManager
 import com.example.musicstreaming.services.dtos.Track
 import com.example.musicstreaming.utils.MediaPlayerCallBack
+import java.util.*
 import kotlin.collections.ArrayDeque
 
 class PlayerViewModel : ViewModel() {
@@ -13,7 +14,9 @@ class PlayerViewModel : ViewModel() {
     private val musicManager = MusicManager
     val currentTrack: MutableLiveData<Track> = MutableLiveData()
     val queueTrackList: MutableLiveData<ArrayDeque<Track>> = MutableLiveData(ArrayDeque())
+    val stackTrackList: MutableLiveData<Stack<Track>> = MutableLiveData(Stack())
     val emptyQueue: MutableLiveData<Boolean> = MutableLiveData(true)
+    val emptyStack: MutableLiveData<Boolean> = MutableLiveData(true)
     val isPlaying: MutableLiveData<Boolean> = MutableLiveData(false)
     val isCompleted: MutableLiveData<Boolean> = MutableLiveData(false)
 
@@ -61,23 +64,55 @@ class PlayerViewModel : ViewModel() {
     fun addToQueue(track: Track) {
         queueTrackList.value?.addLast(track)
         emptyQueue.postValue(false)
-        Log.d("PlayerViewModel","Added to queue!")
+        Log.d("PlayerViewModel", "Added Last to queue!")
     }
 
-    fun next(){
-        if(queueTrackList.value?.isNotEmpty() == true) {
-            queueTrackList.value?.first()?.let { play(it) }
+    fun addFirstToQueue(track:Track){
+        queueTrackList.value?.addFirst(track)
+        emptyQueue.postValue(false)
+        Log.d("PlayerViewModel", "Added First to queue!")
+    }
+
+    fun next() {
+        if (queueTrackList.value?.isNotEmpty() == true) {
+            queueTrackList.value?.first()?.let {
+                currentTrack.value?.let { current -> addToStack(current) }
+                play(it)
+            }
             queueTrackList.value?.removeFirst()
             queueTrackList.postValue(queueTrackList.value)
-        }
-        else{
+            stackTrackList.postValue(stackTrackList.value)
+        } else {
             emptyQueue.postValue(true)
-            Log.d("PlayerViewModel","Queue is empty")
+            Log.d("PlayerViewModel", "Queue is empty")
         }
     }
 
-    fun setEmptyQueue(){
+    private fun addToStack(track: Track) {
+        stackTrackList.value?.push(track)
+        emptyStack.postValue(false)
+        Log.d("PlayerViewModel", "Added to queue!")
+    }
+
+    fun previous() {
+        if (stackTrackList.value?.isNotEmpty() == true) {
+            stackTrackList.value?.pop()?.let {
+                currentTrack.value?.let { current -> addFirstToQueue(current) }
+                play(it) }
+            stackTrackList.postValue(stackTrackList.value)
+            queueTrackList.postValue(queueTrackList.value)
+        } else {
+            emptyStack.postValue(true)
+            Log.d("PlayerViewModel", "Queue is empty")
+        }
+    }
+
+    fun setEmptyQueue() {
         emptyQueue.postValue(true)
+    }
+
+    fun setEmptyStack(){
+        emptyStack.postValue(true)
     }
 
 }

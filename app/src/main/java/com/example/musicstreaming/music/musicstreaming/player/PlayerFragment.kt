@@ -70,9 +70,25 @@ class PlayerFragment : Fragment() {
             binding.musicPlayerNextButton.isEnabled = !it
         }
 
+        viewModel.stackTrackList.observe(viewLifecycleOwner){
+            if(it.isEmpty()){
+                binding.musicPlayerPreviousButton.isEnabled = false
+                viewModel.setEmptyStack()
+            }
+        }
+
+        viewModel.emptyStack.observe(viewLifecycleOwner){
+            binding.musicPlayerPreviousButton.isEnabled = !it
+        }
+
         binding.musicPlayerNextButton.setOnClickListener {
             viewModel.stop()
             viewModel.next()
+        }
+
+        binding.musicPlayerPreviousButton.setOnClickListener {
+            viewModel.stop()
+            viewModel.previous()
         }
     }
 }
