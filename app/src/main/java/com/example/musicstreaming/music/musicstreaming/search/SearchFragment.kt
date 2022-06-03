@@ -8,19 +8,29 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.musicstreaming.R
 import com.example.musicstreaming.databinding.SearchFragmentBinding
+import com.example.musicstreaming.music.musicstreaming.home.HomeFragment
+import com.example.musicstreaming.music.musicstreaming.player.PlayerViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
 
     private val viewModel by viewModels<SearchViewModel>()
+    private val playerViewModel by activityViewModels<PlayerViewModel>()
     private lateinit var binding: SearchFragmentBinding
-    private val searchAdapter: SearchAdapter = SearchAdapter(emptyList())
+    private val searchAdapter: SearchAdapter = SearchAdapter(emptyList(), SearchAdapter.OnClickListener { track ->
+        if(playerViewModel.isPlaying.value == true){
+            playerViewModel.stop()
+        }
+        playerViewModel.play(track)
+    })
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -56,17 +66,23 @@ class SearchFragment : Fragment() {
             dividerItemDecoration.setDrawable(resources.getDrawable(R.drawable.bg_divider))
         })
 
-        viewModel.tracksList.observe(viewLifecycleOwner){
+        viewModel.tracksList.observe(viewLifecycleOwner) {
             searchAdapter.updateTrackList(it)
         }
 
-        viewModel.loadingProgressBar.observe(viewLifecycleOwner){
+        viewModel.loadingProgressBar.observe(viewLifecycleOwner) {
             if (it) {
                 binding.searchLoading.visibility = View.VISIBLE
-            }
-            else{
+            } else {
                 binding.searchLoading.visibility = View.GONE
             }
+        }
+    }
+
+    private fun redirectToHomeScreen() {
+        parentFragmentManager.commit {
+            setReorderingAllowed(true)
+            replace(R.id.main_music_container, HomeFragment())
         }
     }
 }

@@ -7,7 +7,7 @@
     android:background="@drawable/bg_player">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/top_track_cardview"
+        android:id="@+id/player_track_cardview"
         android:layout_width="@dimen/dimen48"
         android:layout_height="@dimen/dimen48"
         android:layout_marginVertical="@dimen/dimen8"
@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/top_track_image"
+            android:id="@+id/player_track_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/track_image" />
@@ -30,9 +30,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dimen12"
         android:layout_marginTop="@dimen/dimen20"
-        android:text="Title"
         android:textSize="@dimen/text12"
-        app:layout_constraintStart_toEndOf="@+id/top_track_cardview"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toEndOf="@+id/player_track_cardview"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Title" />
 
@@ -41,9 +41,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dimen12"
-        android:text="Adele"
+        android:textColor="@color/black"
         android:textSize="@dimen/text12"
-        app:layout_constraintStart_toEndOf="@+id/top_track_cardview"
+        app:layout_constraintStart_toEndOf="@+id/player_track_cardview"
         app:layout_constraintTop_toBottomOf="@+id/music_player_track_title"
         tools:text="Adele" />
 
