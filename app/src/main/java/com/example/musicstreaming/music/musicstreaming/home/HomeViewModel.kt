@@ -23,12 +23,12 @@ class HomeViewModel @Inject constructor(private val topArtistUseCase: TopArtistU
         loadingProgressBar.postValue(true)
         CoroutineScope(Dispatchers.IO).launch {
             val artistResult = topArtistUseCase.invoke()
-//            delay(1000)
-            artistResult?.artists?.forEach {
+            val artistsList = artistResult?.artists?.take(10)
+            artistsList?.forEach {
                 val trackResult = topTrackUseCase.invoke(it.id)
                 it.topTracks = trackResult?.tracks
             }
-            topArtists.postValue(artistResult?.artists)
+            topArtists.postValue(artistsList)
             loadingProgressBar.postValue(false)
         }
     }

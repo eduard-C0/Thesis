@@ -58,5 +58,21 @@ class PlayerFragment : Fragment() {
                 viewModel.currentTrack.value?.let { track -> viewModel.play(track) }
             }
         }
+
+        viewModel.queueTrackList.observe(viewLifecycleOwner){
+            if(it.isEmpty()){
+                binding.musicPlayerNextButton.isEnabled = false
+                viewModel.setEmptyQueue()
+            }
+        }
+
+        viewModel.emptyQueue.observe(viewLifecycleOwner){
+            binding.musicPlayerNextButton.isEnabled = !it
+        }
+
+        binding.musicPlayerNextButton.setOnClickListener {
+            viewModel.stop()
+            viewModel.next()
+        }
     }
 }

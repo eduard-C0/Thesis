@@ -9,11 +9,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.musicstreaming.R
+import com.example.musicstreaming.music.musicstreaming.search.SearchAdapter
 import com.example.musicstreaming.services.dtos.Artist
 import com.example.musicstreaming.services.dtos.Track
 import com.example.musicstreaming.utils.PictureHandler
 
-class TopArtistAdapter (private var artistList: List<Artist>) : RecyclerView.Adapter<TopArtistAdapter.HomeArtistsViewHolder>() {
+class TopArtistAdapter (private var artistList: List<Artist>, private val onClickListener: SearchAdapter.OnClickListener, private val onLongPressListener: SearchAdapter.OnLongPressListener) : RecyclerView.Adapter<TopArtistAdapter.HomeArtistsViewHolder>() {
     private var context: Context? = null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeArtistsViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.top_artist_item, parent, false)
@@ -28,7 +29,7 @@ class TopArtistAdapter (private var artistList: List<Artist>) : RecyclerView.Ada
         holder.topArtistName.text = item.name
 
         val layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
-        val topTrackAdapter = item.topTracks?.let { TopTrackAdapter(it) }
+        val topTrackAdapter = item.topTracks?.let { TopTrackAdapter(it,onClickListener, onLongPressListener) }
 
         holder.topTrackRecyclerView.layoutManager = layoutManager
         holder.topTrackRecyclerView.adapter = topTrackAdapter

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.SearchView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
@@ -26,10 +27,13 @@ class SearchFragment : Fragment() {
     private val playerViewModel by activityViewModels<PlayerViewModel>()
     private lateinit var binding: SearchFragmentBinding
     private val searchAdapter: SearchAdapter = SearchAdapter(emptyList(), SearchAdapter.OnClickListener { track ->
-        if(playerViewModel.isPlaying.value == true){
+        if (playerViewModel.isPlaying.value == true) {
             playerViewModel.stop()
         }
         playerViewModel.play(track)
+    }, SearchAdapter.OnLongPressListener { track ->
+        playerViewModel.addToQueue(track)
+        Toast.makeText(context, "${track.name} added to the Queue", Toast.LENGTH_SHORT).show()
     })
 
     override fun onCreateView(

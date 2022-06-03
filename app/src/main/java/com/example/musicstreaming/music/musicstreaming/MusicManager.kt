@@ -9,7 +9,7 @@ object MusicManager {
 
     private var mediaPlayer: MediaPlayer = MediaPlayer()
 
-    fun play(track: Track, mediaPlayerCallBack: MediaPlayerCallBack){
+    fun play(track: Track, mediaPlayerCallBack: MediaPlayerCallBack) {
 
         mediaPlayer = MediaPlayer().apply {
             setAudioAttributes(
@@ -30,15 +30,15 @@ object MusicManager {
         }
     }
 
-    fun start(){
+    fun start() {
         mediaPlayer.start()
     }
 
-    fun pause(){
+    fun pause() {
         mediaPlayer.pause()
     }
 
-    fun stop(){
+    fun stop() {
         mediaPlayer.release()
     }
 
@@ -46,7 +46,7 @@ object MusicManager {
         return mediaPlayer.isPlaying
     }
 
-    fun setOnCompletionListener( mediaPlayerCallBack: MediaPlayerCallBack){
+    fun setOnCompletionListener(mediaPlayerCallBack: MediaPlayerCallBack) {
         mediaPlayer.setOnCompletionListener {
             stop()
             mediaPlayerCallBack.onNotification()

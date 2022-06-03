@@ -12,7 +12,8 @@ import com.example.musicstreaming.R
 import com.example.musicstreaming.services.dtos.Track
 import com.example.musicstreaming.utils.PictureHandler
 
-class SearchAdapter(private var trackList: List<Track>, private val onClickListener: OnClickListener) : RecyclerView.Adapter<SearchAdapter.SearchResultViewHolder>() {
+class SearchAdapter(private var trackList: List<Track>, private val onClickListener: OnClickListener, private val onLongPressListener: OnLongPressListener) :
+    RecyclerView.Adapter<SearchAdapter.SearchResultViewHolder>() {
     private var context: Context? = null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchResultViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.search_item, parent, false)
@@ -28,6 +29,10 @@ class SearchAdapter(private var trackList: List<Track>, private val onClickListe
         holder.container.setOnClickListener {
             onClickListener.onClick(item)
         }
+        holder.container.setOnLongClickListener {
+            onLongPressListener.onLongPress(item)
+            return@setOnLongClickListener true
+        }
     }
 
     override fun getItemCount(): Int {
@@ -42,12 +47,16 @@ class SearchAdapter(private var trackList: List<Track>, private val onClickListe
         val container: ConstraintLayout = itemView.findViewById(R.id.search_item_container)
     }
 
-    fun updateTrackList(newList : List<Track>){
+    fun updateTrackList(newList: List<Track>) {
         this.trackList = newList
         notifyDataSetChanged()
     }
 
     class OnClickListener(val clickListener: (track: Track) -> Unit) {
         fun onClick(track: Track) = clickListener(track)
+    }
+
+    class OnLongPressListener(val longPressListener: (track: Track) -> Unit) {
+        fun onLongPress(track: Track) = longPressListener(track)
     }
 }

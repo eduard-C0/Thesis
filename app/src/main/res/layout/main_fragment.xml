@@ -20,6 +20,7 @@
         android:id="@+id/player_container"
         android:layout_width="match_parent"
         android:layout_height="64dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/navigation_bar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

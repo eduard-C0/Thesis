@@ -1,15 +1,19 @@
 package com.example.musicstreaming.music.musicstreaming.player
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.musicstreaming.music.musicstreaming.MusicManager
 import com.example.musicstreaming.services.dtos.Track
 import com.example.musicstreaming.utils.MediaPlayerCallBack
+import kotlin.collections.ArrayDeque
 
 class PlayerViewModel : ViewModel() {
 
     private val musicManager = MusicManager
     val currentTrack: MutableLiveData<Track> = MutableLiveData()
+    val queueTrackList: MutableLiveData<ArrayDeque<Track>> = MutableLiveData(ArrayDeque())
+    val emptyQueue: MutableLiveData<Boolean> = MutableLiveData(true)
     val isPlaying: MutableLiveData<Boolean> = MutableLiveData(false)
     val isCompleted: MutableLiveData<Boolean> = MutableLiveData(false)
 
@@ -20,6 +24,7 @@ class PlayerViewModel : ViewModel() {
             override fun onNotification() {
                 isPlaying.postValue(false)
                 isCompleted.postValue(true)
+                next()
             }
         }))
     }
@@ -34,6 +39,7 @@ class PlayerViewModel : ViewModel() {
             override fun onNotification() {
                 isPlaying.postValue(false)
                 isCompleted.postValue(true)
+                next()
             }
         })
     }
@@ -47,9 +53,31 @@ class PlayerViewModel : ViewModel() {
         isPlaying.postValue(musicManager.isPlaying())
     }
 
-    fun stop(){
+    fun stop() {
         musicManager.stop()
         isPlaying.postValue(false)
+    }
+
+    fun addToQueue(track: Track) {
+        queueTrackList.value?.addLast(track)
+        emptyQueue.postValue(false)
+        Log.d("PlayerViewModel","Added to queue!")
+    }
+
+    fun next(){
+        if(queueTrackList.value?.isNotEmpty() == true) {
+            queueTrackList.value?.first()?.let { play(it) }
+            queueTrackList.value?.removeFirst()
+            queueTrackList.postValue(queueTrackList.value)
+        }
+        else{
+            emptyQueue.postValue(true)
+            Log.d("PlayerViewModel","Queue is empty")
+        }
+    }
+
+    fun setEmptyQueue(){
+        emptyQueue.postValue(true)
     }
 
 }

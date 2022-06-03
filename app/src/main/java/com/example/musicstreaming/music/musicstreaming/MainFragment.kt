@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
 import com.example.musicstreaming.R
 import com.example.musicstreaming.databinding.MainFragmentBinding
@@ -12,6 +13,7 @@ import com.example.musicstreaming.music.authentification.WelcomeFragment
 import com.example.musicstreaming.music.authentification.login.LoginFragment
 import com.example.musicstreaming.music.musicstreaming.home.HomeFragment
 import com.example.musicstreaming.music.musicstreaming.player.PlayerFragment
+import com.example.musicstreaming.music.musicstreaming.player.PlayerViewModel
 import com.example.musicstreaming.music.musicstreaming.profile.ProfileFragment
 import com.example.musicstreaming.music.musicstreaming.search.SearchFragment
 import com.example.musicstreaming.utils.saveStringIntoSharedPreferences
@@ -19,6 +21,8 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainFragment : Fragment() {
+
+    private val playerViewModel by activityViewModels<PlayerViewModel>()
 
     private lateinit var binding: MainFragmentBinding
 
@@ -40,8 +44,15 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         tabListener()
-
         addMusicPlayer()
+        playerViewModel.currentTrack.observe(viewLifecycleOwner){
+            if(it != null) {
+                binding.playerContainer.visibility = View.VISIBLE
+            }
+            else{
+                binding.playerContainer.visibility = View.GONE
+            }
+        }
     }
 
     private fun redirectToHomeScree() {
