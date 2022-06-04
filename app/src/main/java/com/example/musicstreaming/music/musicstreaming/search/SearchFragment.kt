@@ -1,11 +1,9 @@
 package com.example.musicstreaming.music.musicstreaming.search
 
-import android.content.res.Resources
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -16,6 +14,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.musicstreaming.R
 import com.example.musicstreaming.databinding.SearchFragmentBinding
+import com.example.musicstreaming.music.musicstreaming.favorites.FavoritesViewModel
 import com.example.musicstreaming.music.musicstreaming.home.HomeFragment
 import com.example.musicstreaming.music.musicstreaming.player.PlayerViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,16 +24,25 @@ class SearchFragment : Fragment() {
 
     private val viewModel by viewModels<SearchViewModel>()
     private val playerViewModel by activityViewModels<PlayerViewModel>()
+    private val favoritesViewModel by activityViewModels<FavoritesViewModel>()
     private lateinit var binding: SearchFragmentBinding
-    private val searchAdapter: SearchAdapter = SearchAdapter(emptyList(), SearchAdapter.OnClickListener { track ->
-        if (playerViewModel.isPlaying.value == true) {
-            playerViewModel.stop()
-        }
-        playerViewModel.play(track)
-    }, SearchAdapter.OnLongPressListener { track ->
-        playerViewModel.addToQueue(track)
-        Toast.makeText(context, "${track.name} added to the Queue", Toast.LENGTH_SHORT).show()
-    })
+    private val searchAdapter: SearchAdapter = SearchAdapter(emptyList(),
+        emptyList(),
+        SearchAdapter.OnClickListener { track ->
+            if (playerViewModel.isPlaying.value == true) {
+                playerViewModel.stop()
+            }
+            playerViewModel.play(track)
+        }, SearchAdapter.OnLongPressListener { track ->
+            playerViewModel.addToQueue(track)
+            Toast.makeText(context, "${track.name} added to the Queue", Toast.LENGTH_SHORT).show()
+        }, SearchAdapter.OnClickListener { track ->
+            if (favoritesViewModel.favoritesList.value?.contains(track) == true) {
+                favoritesViewModel.removeFavorite(track)
+            } else {
+                favoritesViewModel.addFavorite(track)
+            }
+        })
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -69,9 +77,9 @@ class SearchFragment : Fragment() {
         ).also { dividerItemDecoration ->
             dividerItemDecoration.setDrawable(resources.getDrawable(R.drawable.bg_divider))
         })
-
+        favoritesViewModel.getFavorites()
         viewModel.tracksList.observe(viewLifecycleOwner) {
-            searchAdapter.updateTrackList(it)
+            searchAdapter.updateTrackList(it, favoritesViewModel.favoritesList.value ?: emptyList())
         }
 
         viewModel.loadingProgressBar.observe(viewLifecycleOwner) {
@@ -79,6 +87,18 @@ class SearchFragment : Fragment() {
                 binding.searchLoading.visibility = View.VISIBLE
             } else {
                 binding.searchLoading.visibility = View.GONE
+            }
+        }
+
+        favoritesViewModel.favoriteAdded.observe(viewLifecycleOwner) {
+            if (it) {
+                favoritesViewModel.getFavorites()
+            }
+        }
+
+        favoritesViewModel.favoriteRemoved.observe(viewLifecycleOwner) {
+            if (it) {
+                favoritesViewModel.getFavorites()
             }
         }
     }

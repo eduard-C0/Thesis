@@ -2,7 +2,10 @@ package com.example.musicstreaming.services.retrofit
 
 import android.util.Log
 import com.example.musicstreaming.commonVO.User
+import com.example.musicstreaming.services.dtos.FavoritesResponse
 import com.example.musicstreaming.services.dtos.ResponseMessage
+import com.example.musicstreaming.services.dtos.Track
+import com.example.musicstreaming.services.toTracks
 import com.example.musicstreaming.services.toUserDto
 import java.lang.Exception
 
@@ -40,4 +43,50 @@ internal class RetrofitBackendServiceImplementation(private val backendServiceAp
             null
         }
     }
+
+    override suspend fun addToFavorites(track: Track): ResponseMessage? {
+        return try {
+            val response = backendServiceApi.addToFavorites(track)
+            Log.d(TAG, "Add to favorites: $response")
+            response
+        } catch (exception: Exception){
+            Log.e(TAG, exception.stackTraceToString())
+            null
+        }
+    }
+
+    override suspend fun getAllTracksFromFavorites(): List<Track>? {
+        return try {
+            val response = backendServiceApi.getAllTracksFromFavorites()
+            Log.d(TAG, "Get All Tracks From Favorites: $response")
+            response
+        } catch (exception: Exception){
+            Log.e(TAG, exception.stackTraceToString())
+            null
+        }
+    }
+
+    override suspend fun removeTrackFromFavorites(track: Track): ResponseMessage? {
+        return try {
+            val response = backendServiceApi.removeTrackFromFavorites(track)
+            Log.d(TAG, "Remove Track From Favorites: $response")
+            response
+        } catch (exception: Exception){
+            Log.e(TAG, exception.stackTraceToString())
+            null
+        }
+    }
+
+    override suspend fun getUser(): User? {
+        return try {
+            val response = backendServiceApi.getUser()
+            Log.d(TAG, "Remove Track From Favorites: $response")
+            response
+        } catch (exception: Exception){
+            Log.e(TAG, exception.stackTraceToString())
+            null
+        }
+    }
+
+
 }

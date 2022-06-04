@@ -1,5 +1,7 @@
 package com.example.musicstreaming.services.di
 
+import android.content.Context
+import android.content.SharedPreferences
 import com.example.musicstreaming.services.retrofit.*
 import com.example.musicstreaming.services.retrofit.RetrofitBackendServiceApi
 import com.example.musicstreaming.services.retrofit.RetrofitBackendServiceImplementation
@@ -10,10 +12,12 @@ import com.example.network.NetworkClient
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import java.lang.reflect.Proxy
 import javax.inject.Qualifier
 import javax.inject.Scope
+import javax.inject.Singleton
 
 @Qualifier
 internal annotation class NullableBackendService
@@ -39,7 +43,7 @@ internal object BackendServiceModule {
 
     @Provides
     @BackendScope
-    fun provideBackendNetworkClient(): NetworkClient =  NetworkClient("https://boiling-plains-24159.herokuapp.com/", true)
+    fun provideBackendNetworkClient(sharedPreferences: SharedPreferences): NetworkClient =  NetworkClient("https://boiling-plains-24159.herokuapp.com/", true, sharedPreferences)
 
     @Provides
     @BackendScope
@@ -70,7 +74,7 @@ internal object BackendServiceModule {
 
     @Provides
     @NapsterScope
-    fun provideNapsterNetworkClient(): NetworkClient =  NetworkClient("https://api.napster.com/", true)
+    fun provideNapsterNetworkClient(sharedPreferences: SharedPreferences): NetworkClient =  NetworkClient("https://api.napster.com/", true, sharedPreferences)
 
     @Provides
     @NapsterScope
@@ -97,4 +101,9 @@ internal object BackendServiceModule {
         RetrofitNapsterServiceImplementation(napsterServiceApi)
 
 
+    @Singleton
+    @Provides
+    fun provideSharedPreference(@ApplicationContext context: Context): SharedPreferences {
+        return context.getSharedPreferences("application", Context.MODE_PRIVATE)
+    }
 }

@@ -12,9 +12,17 @@ import com.example.musicstreaming.R
 import com.example.musicstreaming.services.dtos.Track
 import com.example.musicstreaming.utils.PictureHandler
 
-class SearchAdapter(private var trackList: List<Track>, private val onClickListener: OnClickListener, private val onLongPressListener: OnLongPressListener) :
+class SearchAdapter(
+    private var trackList: List<Track>,
+    private var favoritesTrackList: List<Track>,
+    private val onClickListener: OnClickListener,
+    private val onLongPressListener: OnLongPressListener,
+    private val favoriteClickListener: OnClickListener
+) :
     RecyclerView.Adapter<SearchAdapter.SearchResultViewHolder>() {
+
     private var context: Context? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchResultViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.search_item, parent, false)
         context = parent.context
@@ -33,6 +41,25 @@ class SearchAdapter(private var trackList: List<Track>, private val onClickListe
             onLongPressListener.onLongPress(item)
             return@setOnLongClickListener true
         }
+        if(favoritesTrackList.contains(item)){
+            holder.favoriteAdd.visibility = View.GONE
+            holder.favoriteRemove.visibility = View.VISIBLE
+        }else{
+            holder.favoriteAdd.visibility = View.VISIBLE
+            holder.favoriteRemove.visibility = View.GONE
+        }
+
+        holder.favoriteAdd.setOnClickListener {
+            favoriteClickListener.onClick(item)
+            holder.favoriteAdd.visibility = View.GONE
+            holder.favoriteRemove.visibility = View.VISIBLE
+        }
+
+        holder.favoriteRemove.setOnClickListener {
+            favoriteClickListener.onClick(item)
+            holder.favoriteRemove.visibility = View.GONE
+            holder.favoriteAdd.visibility = View.VISIBLE
+        }
     }
 
     override fun getItemCount(): Int {
@@ -43,12 +70,14 @@ class SearchAdapter(private var trackList: List<Track>, private val onClickListe
         val trackImage: ImageView = itemView.findViewById(R.id.search_track_image)
         val trackTitle: TextView = itemView.findViewById(R.id.track_title)
         val trackArtist: TextView = itemView.findViewById(R.id.artist_name)
-        val favorite: ImageView = itemView.findViewById(R.id.search_favorite)
+        val favoriteAdd: ImageView = itemView.findViewById(R.id.search_favorite_add)
+        val favoriteRemove: ImageView = itemView.findViewById(R.id.search_favorite_remove)
         val container: ConstraintLayout = itemView.findViewById(R.id.search_item_container)
     }
 
-    fun updateTrackList(newList: List<Track>) {
+    fun updateTrackList(newList: List<Track>, newFavorites: List<Track>) {
         this.trackList = newList
+        this.favoritesTrackList = newFavorites
         notifyDataSetChanged()
     }
 

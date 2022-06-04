@@ -1,5 +1,6 @@
 package com.example.network
 
+import android.content.SharedPreferences
 import com.example.musicstreaming.network.interceptor.HeaderInterceptor
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -8,7 +9,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-class NetworkClient(url: String, enableLogging: Boolean = false) {
+class NetworkClient(url: String, enableLogging: Boolean = false, sharedPreferences: SharedPreferences) {
 
     companion object {
         private const val CONNECT_TIMEOUT = 30L
@@ -21,7 +22,7 @@ class NetworkClient(url: String, enableLogging: Boolean = false) {
             .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
             .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
             .writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS)
-            .addInterceptor(HeaderInterceptor)
+            .addInterceptor(HeaderInterceptor(sharedPreferences))
             .apply {
                 if (enableLogging) {
                     addInterceptor(createLoggingInterceptor())
