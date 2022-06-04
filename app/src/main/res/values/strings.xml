@@ -14,4 +14,9 @@
     <string name="navigation_search">Search</string>
     <string name="navigation_profile">Profile</string>
     <string name="navigation_favorites">Favorites</string>
+    <string name="profile">\@profile</string>
+    <string name="_30">30</string>
+    <string name="queue">Queue</string>
+    <string name="favorites">Favorites</string>
+    <string name="playlist">Playlist</string>
 </resources>

@@ -113,7 +113,7 @@ class RegisterFragment : Fragment() {
         }
 
         binding.registerConfirmPassword.afterTextChanged {
-            if (binding.registerConfirmPassword.text != binding.registerPassword.text) {
+            if (binding.registerConfirmPassword.text.toString() != binding.registerPassword.text.toString()) {
                 binding.registerConfirmPassword.error = "Password does not match!"
                 validConfirmation = false
             } else {
@@ -125,9 +125,9 @@ class RegisterFragment : Fragment() {
         binding.registerEmail.afterTextChanged {
             if (!Patterns.EMAIL_ADDRESS.matcher(binding.registerEmail.text).matches()) {
                 binding.registerEmail.error = "Invalid email address!"
-                validConfirmation = false
+                validEmail = false
             } else {
-                validConfirmation = true
+                validEmail = true
             }
         }
     }
