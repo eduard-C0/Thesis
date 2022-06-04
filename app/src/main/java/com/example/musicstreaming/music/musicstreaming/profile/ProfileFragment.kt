@@ -10,8 +10,10 @@ import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import com.example.musicstreaming.R
 import com.example.musicstreaming.databinding.ProfileFragmentBinding
+import com.example.musicstreaming.music.DialogShowerError
 import com.example.musicstreaming.music.authentification.WelcomeFragment
 import com.example.musicstreaming.music.musicstreaming.MainFragment
+import com.example.musicstreaming.music.musicstreaming.favorites.FavoritesFragment
 import com.example.musicstreaming.music.musicstreaming.favorites.FavoritesViewModel
 import com.example.musicstreaming.music.musicstreaming.player.PlayerViewModel
 import com.example.musicstreaming.music.musicstreaming.search.SearchViewModel
@@ -21,7 +23,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class ProfileFragment: Fragment() {
 
-    private val viewModel by viewModels<ProfileViewModel>()
+    private val viewModel by activityViewModels<ProfileViewModel>()
     private val favoritesViewModel by activityViewModels<FavoritesViewModel>()
     private val playerViewModel by activityViewModels<PlayerViewModel>()
 
@@ -48,12 +50,15 @@ class ProfileFragment: Fragment() {
             context?.let { context -> saveStringIntoSharedPreferences(context,"Token","") }
             redirectToWelcomeScreen()
         }
-        viewModel.getUserInformation()
+        if(viewModel.userInformation.value == null) {
+            viewModel.getUserInformation()
+        }
         favoritesViewModel.getFavorites()
 
         viewModel.loadingProgressBar.observe(viewLifecycleOwner){
             if (!it){
                 binding.profileLoading.visibility = View.GONE
+                binding.avatar.visibility = View.VISIBLE
                 binding.profileFullName.visibility = View.VISIBLE
                 binding.nickName.visibility = View.VISIBLE
                 binding.queueInformation.visibility = View.VISIBLE
@@ -62,6 +67,7 @@ class ProfileFragment: Fragment() {
                 binding.playlists.visibility = View.VISIBLE
             }else{
                 binding.profileLoading.visibility = View.VISIBLE
+                binding.avatar.visibility = View.GONE
                 binding.profileFullName.visibility = View.GONE
                 binding.nickName.visibility = View.GONE
                 binding.queueInformation.visibility = View.GONE
@@ -79,7 +85,7 @@ class ProfileFragment: Fragment() {
         }
 
         favoritesViewModel.favoritesList.observe(viewLifecycleOwner){
-            if (!it.isNullOrEmpty()){
+            if (it != null){
                 binding.numberOfSongsInFavorites.text = it.size.toString()
             }
         }
@@ -89,6 +95,18 @@ class ProfileFragment: Fragment() {
                 binding.numberOfSongsInQueue.text = it.size.toString()
             }
         }
+
+        binding.favoritesContainer.setOnClickListener {
+            redirectToFavorites()
+        }
+
+        binding.favoritesContainer.setOnLongClickListener {
+            if(!favoritesViewModel.favoritesList.value.isNullOrEmpty()) {
+                playerViewModel.addToQueueFavorites(favoritesViewModel.favoritesList.value)
+                DialogShowerError("Yeey!", "All your favorites songs were added to the queue", resources.getDrawable(R.drawable.ic_dialog_popup)).show(parentFragmentManager, DialogShowerError.TAG)
+            }
+            return@setOnLongClickListener true
+        }
     }
 
     private fun redirectToWelcomeScreen() {
@@ -96,6 +114,13 @@ class ProfileFragment: Fragment() {
             setReorderingAllowed(true)
             replace(R.id.main_fragment_container, WelcomeFragment())
             remove(MainFragment())
+        }
+    }
+
+    private fun redirectToFavorites(){
+        parentFragmentManager.commit {
+            setReorderingAllowed(true)
+            add(R.id.main_music_container, FavoritesFragment())
         }
     }
 }

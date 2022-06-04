@@ -91,4 +91,9 @@ class PlayerFragment : Fragment() {
             viewModel.previous()
         }
     }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.pause()
+    }
 }

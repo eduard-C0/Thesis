@@ -24,6 +24,7 @@
         android:layout_marginStart="@dimen/dimen20"
         android:textColor="@color/white"
         android:textSize="@dimen/text24"
+        android:fontFamily="@font/montserrat_bold"
         android:text="Profile"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,17 +37,29 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="60dp"/>
 
+    <ImageView
+        android:id="@+id/avatar"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/avatar"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/guideline"
+        />
+
     <TextView
         android:id="@+id/profile_full_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dimen32"
+        android:fontFamily="@font/montserrat_semibold"
+        android:layout_marginTop="@dimen/dimen12"
         android:text="Profile"
+        android:textSize="@dimen/text28"
         android:visibility="gone"
-        android:textSize="@dimen/text32"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline" />
+        app:layout_constraintTop_toBottomOf="@+id/avatar" />
 
     <TextView
         android:id="@+id/nick_name"
@@ -55,6 +68,8 @@
         android:text="@string/profile"
         android:visibility="gone"
         android:textAllCaps="false"
+        android:fontFamily="@font/montserrat_regular"
+        android:textFontWeight="500"
         android:textSize="@dimen/text20"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -83,6 +98,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
+            android:fontFamily="@font/montserrat_medium"
             android:gravity="center"
             android:text="@string/_30"
             android:textSize="@dimen/dimen24"
@@ -92,6 +108,7 @@
             android:id="@+id/queue_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_regular"
             android:gravity="center"
             android:text="@string/queue"
             android:textSize="@dimen/text16" />
@@ -115,6 +132,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textColor="@color/white"
+            android:fontFamily="@font/montserrat_medium"
             android:text="@string/_30"
             android:textSize="@dimen/dimen24"
             android:textStyle="bold" />
@@ -124,6 +142,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:fontFamily="@font/montserrat_regular"
             android:maxLines="1"
             android:text="@string/favorites"
             android:textSize="@dimen/text16" />
@@ -137,14 +156,17 @@
         android:layout_marginTop="@dimen/dimen64"
         android:layout_marginStart="@dimen/dimen12"
         android:text="@string/playlist"
+        android:fontFamily="@font/montserrat_bold"
         android:textColor="@color/white"
-        android:textSize="@dimen/text28"
+        android:textSize="@dimen/text24"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/queue_information" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:visibility="gone"
         android:id="@+id/favorites_container"
+        android:clickable="true"
+        android:focusable="true"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginTop="@dimen/dimen32"
@@ -175,6 +197,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Favorites"
+            android:fontFamily="@font/montserrat_semibold"
             android:textSize="@dimen/text20"
             android:layout_marginStart="@dimen/dimen20"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -185,7 +208,7 @@
             android:id="@+id/favorites_arrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_next"
+            android:src="@drawable/ic_right_arrow"
             android:layout_marginEnd="@dimen/dimen24"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

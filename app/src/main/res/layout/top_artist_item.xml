@@ -30,6 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dimen12"
         tools:text="Artist Name"
+        android:fontFamily="@font/montserrat_bold"
         android:textSize="@dimen/text20"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/top_artist_cardview"

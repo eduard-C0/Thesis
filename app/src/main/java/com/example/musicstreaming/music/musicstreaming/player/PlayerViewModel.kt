@@ -67,7 +67,7 @@ class PlayerViewModel : ViewModel() {
         Log.d("PlayerViewModel", "Added Last to queue!")
     }
 
-    fun addFirstToQueue(track:Track){
+    fun addFirstToQueue(track: Track) {
         queueTrackList.value?.addFirst(track)
         emptyQueue.postValue(false)
         Log.d("PlayerViewModel", "Added First to queue!")
@@ -98,7 +98,8 @@ class PlayerViewModel : ViewModel() {
         if (stackTrackList.value?.isNotEmpty() == true) {
             stackTrackList.value?.pop()?.let {
                 currentTrack.value?.let { current -> addFirstToQueue(current) }
-                play(it) }
+                play(it)
+            }
             stackTrackList.postValue(stackTrackList.value)
             queueTrackList.postValue(queueTrackList.value)
         } else {
@@ -111,8 +112,20 @@ class PlayerViewModel : ViewModel() {
         emptyQueue.postValue(true)
     }
 
-    fun setEmptyStack(){
+    fun setEmptyStack() {
         emptyStack.postValue(true)
+    }
+
+    fun addToQueueFavorites(trackList: List<Track>?) {
+        if (!trackList.isNullOrEmpty()) {
+            queueTrackList.value?.addAll(trackList)
+            queueTrackList.postValue(queueTrackList.value)
+            emptyQueue.postValue(false)
+            Log.d("PlayerViewModel", "Added Favorites to queue!")
+            if (currentTrack.value == null) {
+                next()
+            }
+        }
     }
 
 }

@@ -75,11 +75,9 @@ class RegisterFragment : Fragment() {
     private fun displayStatusMessage() {
         viewModel.registerStatus.observe(viewLifecycleOwner) {
             if (it) {
-                Toast.makeText(context, "Registered successfully", Toast.LENGTH_SHORT).show()
                 DialogShowerRegister().show(parentFragmentManager, DialogShowerRegister.TAG)
             } else {
                 DialogShowerError("Oops!", "Somebody already used this email.", resources.getDrawable(R.drawable.ic_register_error)).show(parentFragmentManager,DialogShowerError.TAG)
-                Toast.makeText(context, "Already created an account with this email", Toast.LENGTH_SHORT).show()
             }
         }
     }

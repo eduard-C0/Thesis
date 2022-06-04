@@ -23,7 +23,7 @@ import java.util.ArrayList
 class HomeFragment : Fragment() {
 
     private lateinit var binding: HomeFragmentBinding
-    private val viewModel by viewModels<HomeViewModel>()
+    private val viewModel by activityViewModels<HomeViewModel>()
     private val playerViewModel by activityViewModels<PlayerViewModel>()
 
     private val topArtistAdapter: TopArtistAdapter = TopArtistAdapter(emptyList(),
@@ -53,8 +53,9 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.homeFragmentRecyclerview.adapter = topArtistAdapter
-
-        viewModel.getTopArtists()
+        if(viewModel.topArtists.value.isNullOrEmpty()) {
+            viewModel.getTopArtists()
+        }
 
         viewModel.topArtists.observe(viewLifecycleOwner) {
             topArtistAdapter.updateTrackList(it)

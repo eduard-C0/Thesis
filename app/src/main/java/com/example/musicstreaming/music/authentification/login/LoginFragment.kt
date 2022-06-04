@@ -71,7 +71,6 @@ class LoginFragment : Fragment() {
             } else {
                 val dialogShowerError = DialogShowerError("Error",it.message,resources.getDrawable(R.drawable.ic_error_rip))
                 dialogShowerError.show(parentFragmentManager,DialogShowerError.TAG)
-                Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
             }
         }
     }

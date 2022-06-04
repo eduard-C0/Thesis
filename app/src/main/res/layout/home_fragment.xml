@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:text="Top 10 artists of the week"
         android:layout_marginStart="@dimen/dimen12"
+        android:fontFamily="@font/montserrat_bold"
         android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
         android:textColor="@color/white"
         android:textSize="@dimen/text24"
