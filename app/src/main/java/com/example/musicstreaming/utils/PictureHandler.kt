@@ -9,6 +9,15 @@ import com.example.musicstreaming.R
 
 object PictureHandler {
 
+    private const val APIKEY = "apikey"
+    private const val APIKEY_VALUE = "M2ExNTkyZWUtOWVlOS00NDU0LWJhOTEtYWFmMjI0NGZhNTM5\n"
+    private const val URL_BASE = "https://api.napster.com/imageserver/v2/albums/"
+    private const val URL_BASE_ARTIST_IMAGE_SERVER =
+        "https://api.napster.com/imageserver/v2/artists/"
+    private const val IMAGE_SIZE = 170
+    private const val IMAGE_SIZE_ARTIST_W = 150
+    private const val IMAGE_SIZE_ARTIST_H = 100
+
     fun loadTrackImage(
         context: Context,
         trackId: String,
@@ -45,12 +54,4 @@ object PictureHandler {
             .error(R.drawable.album).circleCrop().into(image)
     }
 
-    private const val APIKEY = "apikey"
-    private const val APIKEY_VALUE = "M2ExNTkyZWUtOWVlOS00NDU0LWJhOTEtYWFmMjI0NGZhNTM5\n"
-    private const val URL_BASE = "https://api.napster.com/imageserver/v2/albums/"
-    private const val URL_BASE_ARTIST_IMAGE_SERVER =
-        "https://api.napster.com/imageserver/v2/artists/"
-    private const val IMAGE_SIZE = 170
-    private const val IMAGE_SIZE_ARTIST_W = 150
-    private const val IMAGE_SIZE_ARTIST_H = 100
 }
