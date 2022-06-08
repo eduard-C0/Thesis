@@ -11,11 +11,12 @@ internal const val USER_URL = "/user"
 internal const val FAVORITE_URL = "/favorite"
 
 internal interface RetrofitBackendServiceApi {
+
     @POST("$USER_URL/createUser")
-    suspend fun register(@Body userDto: UserDto): ResponseMessage
+    suspend fun register(@Body userDto: UserDto): ResponseMessage?
 
     @POST("$USER_URL/login")
-    suspend fun login(@Body userDto: UserDto): ResponseMessage
+    suspend fun login(@Body userDto: UserDto): ResponseMessage?
 
     @POST("$FAVORITE_URL/addToFavorite")
     suspend fun addToFavorites(@Body track: Track): ResponseMessage?

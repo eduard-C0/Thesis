@@ -21,8 +21,14 @@ internal class LoginViewModel @Inject constructor(private val loginUseCase: Logi
         loadingProgressBar.postValue(true)
         CoroutineScope(Dispatchers.IO).launch {
             val status = loginUseCase.invoke(user)
-            loginStatus.postValue(status)
-            loadingProgressBar.postValue(false)
+            if(status == null) {
+//                loginStatus.postValue(ResponseMessage("An erorr has occured","400"))
+                loadingProgressBar.postValue(false)
+            }
+            else {
+                loginStatus.postValue(status)
+                loadingProgressBar.postValue(false)
+            }
         }
     }
 }

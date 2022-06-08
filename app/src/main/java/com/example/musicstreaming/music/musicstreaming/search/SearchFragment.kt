@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.musicstreaming.R
 import com.example.musicstreaming.databinding.SearchFragmentBinding
+import com.example.musicstreaming.music.DialogShowerError
 import com.example.musicstreaming.music.musicstreaming.favorites.FavoritesViewModel
 import com.example.musicstreaming.music.musicstreaming.home.HomeFragment
 import com.example.musicstreaming.music.musicstreaming.player.PlayerViewModel
@@ -79,7 +80,12 @@ class SearchFragment : Fragment() {
         })
         favoritesViewModel.getFavorites()
         viewModel.tracksList.observe(viewLifecycleOwner) {
-            searchAdapter.updateTrackList(it, favoritesViewModel.favoritesList.value ?: emptyList())
+            if(it != null) {
+                searchAdapter.updateTrackList(it, favoritesViewModel.favoritesList.value ?: emptyList())
+            }
+            else{
+                DialogShowerError("Oops!","There was an error searching for your song :(", resources.getDrawable(R.drawable.ic_error_rip)).show(parentFragmentManager, DialogShowerError.TAG)
+            }
         }
 
         viewModel.loadingProgressBar.observe(viewLifecycleOwner) {

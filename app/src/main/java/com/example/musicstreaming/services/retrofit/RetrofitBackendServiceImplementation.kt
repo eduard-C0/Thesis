@@ -20,7 +20,7 @@ internal class RetrofitBackendServiceImplementation(private val backendServiceAp
         try {
             val response = backendServiceApi.register(user.toUserDto())
             Log.d(TAG, "Register Response: $response")
-            if(response.code == "200"){
+            if(response?.code == "200"){
                 Log.d(TAG, "Register 200")
                 return true
             }
@@ -40,7 +40,7 @@ internal class RetrofitBackendServiceImplementation(private val backendServiceAp
             response
         } catch (exception: Exception){
             Log.e(TAG, exception.stackTraceToString())
-            null
+            ResponseMessage("Error occured", "400")
         }
     }
 

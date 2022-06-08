@@ -9,8 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LifecycleOwner
+import com.example.musicstreaming.R
 import com.example.musicstreaming.databinding.HomeFragmentBinding
 import com.example.musicstreaming.databinding.SearchFragmentBinding
+import com.example.musicstreaming.music.DialogShowerError
 import com.example.musicstreaming.music.musicstreaming.player.PlayerViewModel
 import com.example.musicstreaming.music.musicstreaming.search.SearchAdapter
 import com.example.musicstreaming.music.musicstreaming.search.SearchViewModel
@@ -24,6 +26,8 @@ class HomeFragment : Fragment() {
 
     private lateinit var binding: HomeFragmentBinding
     private val viewModel by activityViewModels<HomeViewModel>()
+
+
     private val playerViewModel by activityViewModels<PlayerViewModel>()
 
     private val topArtistAdapter: TopArtistAdapter = TopArtistAdapter(emptyList(),
@@ -58,7 +62,11 @@ class HomeFragment : Fragment() {
         }
 
         viewModel.topArtists.observe(viewLifecycleOwner) {
-            topArtistAdapter.updateTrackList(it)
+            if(it != null) {
+                topArtistAdapter.updateTrackList(it)
+            }else{
+                DialogShowerError("Oops!","It seems that is a network error", resources.getDrawable(R.drawable.ic_error_rip)).show(parentFragmentManager, DialogShowerError.TAG)
+            }
         }
 
         viewModel.loadingProgressBar.observe(viewLifecycleOwner) {

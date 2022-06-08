@@ -3,11 +3,11 @@ package com.example.musicstreaming.services.retrofit
 import android.util.Log
 import com.example.musicstreaming.services.di.NullableBackendService
 import com.example.musicstreaming.services.di.NullableNapsterService
+import com.example.musicstreaming.services.dtos.ResponseMessage
 import java.lang.reflect.InvocationHandler
 import java.lang.reflect.Method
 import javax.inject.Inject
 
-//TODO Add nullable service scope
 internal class RetrofitProxy @Inject constructor( @NullableBackendService private val retrofitBackendServiceApi: RetrofitBackendServiceApi?) :
     InvocationHandler {
     companion object {
@@ -20,13 +20,12 @@ internal class RetrofitProxy @Inject constructor( @NullableBackendService privat
             if (method != null) {
                 method.invoke(service, *arguments.orEmpty())
             } else {
-                //TODO return a mocked response
                 Log.e(TAG, "Method is null. ${method?.name}")
-                return 1
+                return ResponseMessage("The serivice was not initialized properly","400")
             }
         } else {
-            //TODO return a mocked response
             Log.e(TAG, "Invalid service api!")
+            return ResponseMessage("The serivice was not initialized properly","400")
         }
     }
 }
@@ -43,12 +42,9 @@ internal class RetrofitNapsterProxy @Inject constructor( @NullableNapsterService
             if (method != null) {
                 method.invoke(service, *arguments.orEmpty())
             } else {
-                //TODO return a mocked response
                 Log.e(TAG, "Method is null. ${method?.name}")
-                return 1
             }
         } else {
-            //TODO return a mocked response
             Log.e(TAG, "Invalid service api!")
         }
     }

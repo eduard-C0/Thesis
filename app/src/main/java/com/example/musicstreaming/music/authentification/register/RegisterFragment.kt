@@ -50,12 +50,14 @@ class RegisterFragment : Fragment() {
         binding.registerButtonFragment.isEnabled = validLast && validFirst && validEmail && validPassword && validConfirmation
 
         binding.registerButtonFragment.setOnClickListener {
-            val lastName = binding.registerLast.text.toString()
-            val firstName = binding.registerFirst.text.toString()
-            val email = binding.registerEmail.text.toString()
-            val password = binding.registerPassword.text.toString()
-            val user = User(firstName, lastName, email, password)
-            viewModel.register(user)
+            if(validLast && validFirst && validEmail && validPassword && validConfirmation) {
+                val lastName = binding.registerLast.text.toString()
+                val firstName = binding.registerFirst.text.toString()
+                val email = binding.registerEmail.text.toString()
+                val password = binding.registerPassword.text.toString()
+                val user = User(firstName, lastName, email, password)
+                viewModel.register(user)
+            }
         }
 
         viewModel.loadingProgressBar.observe(viewLifecycleOwner) {
@@ -77,7 +79,7 @@ class RegisterFragment : Fragment() {
             if (it) {
                 DialogShowerRegister().show(parentFragmentManager, DialogShowerRegister.TAG)
             } else {
-                DialogShowerError("Oops!", "Somebody already used this email.", resources.getDrawable(R.drawable.ic_register_error)).show(parentFragmentManager,DialogShowerError.TAG)
+                DialogShowerError("Oops!", "Somebody already used this email or the server could not be reached.", resources.getDrawable(R.drawable.ic_register_error)).show(parentFragmentManager,DialogShowerError.TAG)
             }
         }
     }
